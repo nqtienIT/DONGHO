@@ -1,0 +1,73 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Home | E-Shopper</title>
+    <link href="~/Content/css/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/Content/css/frontend/responsive.css" rel="stylesheet" />
+    <link href="~/Content/css/frontend/animate.css" rel="stylesheet" />
+    <link href="~/Content/css/frontend/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/frontend/main.css" rel="stylesheet" />
+    <link href="~/Content/css/frontend/prettyPhoto.css" rel="stylesheet" />
+    <link href="~/Content/css/frontend/price-range.css" rel="stylesheet" />
+
+    <style>
+        body {
+            background-color: #F0F0E9
+        }
+
+        .container {
+            background-color: white
+        }
+
+        .header-bottom {
+            padding: 0
+        }
+
+            .header-bottom .container {
+                padding-top: 30px;
+                padding-bottom: 30px
+            }
+
+        section#slider {
+            padding: 0
+        }
+
+            section#slider .container {
+                padding-bottom: 50px;
+            }
+    </style>
+
+    @RenderSection("BeforeCss", required: false)
+    @RenderSection("BeforeJs", required: false)
+
+</head><!--/head-->
+
+<body>
+    <div id="loading" style="display: none"></div>
+    <header id="header">
+        @Html.Partial("_HeaderPartial")
+    </header><!--/header-->
+
+    @RenderBody()
+
+    <footer id="footer">
+        <!--Footer-->
+        @Html.Partial("_FooterPartial")
+    </footer><!--/Footer-->
+
+    <script src="~/Scripts/fontend/jquery.js"></script>
+    <script src="~/Scripts/fontend/bootstrap.min.js"></script>
+    <script src="~/Scripts/fontend/jquery.scrollUp.min.js"></script>
+    <script src="~/Scripts/fontend/price-range.js"></script>
+    <script src="~/Scripts/fontend/jquery.prettyPhoto.js"></script>
+    <script src="~/Scripts/fontend/main.js"></script>
+
+    @RenderSection("AfterCss", required: false)
+    @RenderSection("AfterJs", required: false)
+</body>
+</html>

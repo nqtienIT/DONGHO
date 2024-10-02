@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-list-ul"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Sản phẩm</span>
+                <span class="info-box-number" id="total_product">
+                    0
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-clipboard-list"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Đơn hàng</span>
+                <span class="info-box-number" id="total_order">0</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <!-- fix for small devices only -->
+    <div class="clearfix hidden-md-up"></div>
+
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-edit"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Bài viết</span>
+                <span class="info-box-number" id="total_post">0</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+            <div class="info-box-content">
+                <span class="info-box-text">Thành viên</span>
+                <span class="info-box-number" id="total_account">0</span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <!-- /.col -->
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title">Tài khoản đăng ký mới</h3>
+                    @*<a href="javascript:void(0);">View Report</a>*@
+                </div>
+            </div>
+            <div class="card-body" style="height: 200px">
+                @*<div class="d-flex">
+                    <p class="d-flex flex-column">
+                        <span class="text-bold text-lg" id="count_new_account">0</span>
+                        <span>đăng ký mới</span>
+                    </p>
+                    <p class="ml-auto d-flex flex-column text-right">
+                        <span class="text-success" id="rate_account_up">
+                            <i class="fas fa-arrow-up"></i><font _mstmutation="1">
+                                0%
+                            </font>
+                        </span>
+                        <span class="text-danger" id="rate_account_down">
+                            <i class="fas fa-arrow-down"></i><font _mstmutation="1">
+                            </font>
+                        </span>
+                        <span class="text-muted">Kể từ tháng trước</span>
+                    </p>
+                </div>*@
+                <!-- /.d-flex -->
+
+                <div class="position-relative mb-4">
+                    <canvas id="chartRegisterAccount" height="200" width="764" class="chartjs-render-monitor" style="display: block; width: 764px; height: 200px;"></canvas>
+                </div>
+
+                <div class="d-flex flex-row justify-content-end">
+                    <span class="mr-2">
+                        <i class="fas fa-square text-primary"></i><font _mstmutation="1">
+                            Tháng này
+                        </font>
+                    </span>
+
+                    <span>
+                        <i class="fas fa-square text-gray"></i><font _mstmutation="1">
+                            Tháng trước
+                        </font>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header border-0">
+                <div class="d-flex justify-content-between">
+                    <h3 class="card-title">Bài viết trong tháng</h3>
+                </div>
+            </div>
+            <div class="card-body" style="height: 200px">
+                <div class="position-relative mb-4">
+                    <canvas id="chartPosts" height="200" width="764" class="chartjs-render-monitor" style="display: block; width: 764px; height: 200px;"></canvas>
+                </div>
+            </div>
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+
+
+@section AfterJs {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="~/Scripts/admin/dashboard-js.js"></script>
+}
+

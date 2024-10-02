@@ -1,0 +1,301 @@
+﻿@model CuaHangDongHo.Models.VMDetailProduct
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model == null || Model.Id < 1)
+{
+    <p>Product not found!</p>
+}
+else
+{
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    @Html.Partial("~/Views/Shared/_LeftSidebarPartial.cshtml")
+                </div>
+
+                <div class="col-sm-9 padding-right">
+                    <div class="product-details">
+                        <!--product-details-->
+                        <div class="col-sm-5">
+                            <div class="view-product">
+                                <img src="@Url.Content("~/Content/img/products/" + Model.MainPicture)" alt="@Model.NameProduct" />
+                                <h3>ZOOM</h3>
+                            </div>
+                            <div id="similar-product" class="carousel slide" data-ride="carousel">
+
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner">
+                                    @if (Model.Pictures.Count > 3)
+                                    {
+                                        <div class="item active">
+                                            @foreach (var item in Model.Pictures.Take(3))
+                                            {
+                                                <a href=""><img width="85" height="85" src="@Url.Content("~/Content/img/products/" + item)" alt=""></a>
+                                            }
+                                        </div>
+                                        <div class="item">
+                                            @foreach (var item in Model.Pictures.Skip(3).Take(3))
+                                            {
+                                                <a href=""><img width="85" height="85" src="@Url.Content("~/Content/img/products/" + item)" alt=""></a>
+                                            }
+                                        </div>
+                                        if (Model.Pictures.Count > 6)
+                                        {
+                                            <div class="item">
+                                                @foreach (var item in Model.Pictures.Skip(6).Take(3))
+                                                {
+                                                    <a href=""><img width="85" height="85" src="@Url.Content("~/Content/img/products/" + item)" alt=""></a>
+                                                }
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="item active">
+                                            @foreach (var item in Model.Pictures)
+                                            {
+                                                <a href=""><img width="85" height="85" src="@Url.Content("~/Content/img/products/" + item)" alt=""></a>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+
+                                <!-- Controls -->
+                                <a class="left item-control" href="#similar-product" data-slide="prev">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                                <a class="right item-control" href="#similar-product" data-slide="next">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="product-information">
+                                <!--/product-information-->
+                                @*<img src="~/Content/img/product-details/new.jpg" class="newarrival" alt="" />*@
+                                <img src="~/Content/img/product-details/Sale.png" width="42" class="newarrival" />
+                                <h2>@Model.NameProduct</h2>
+                                <span>
+                                    <span>
+                                        @{
+                                            if (String.IsNullOrEmpty(Model.PriceSaleVND))
+                                            {
+                                                <p style="color: #FE980F">@Model.PriceVND</p> }
+                                            else
+                                            {
+                                                <p style="color: #FE980F; text-decoration: line-through;">@Model.PriceVND</p>
+                                                <p style="color: #FE980F">@Model.PriceSaleVND</p>
+                                            }
+                                        }
+                                    </span>
+                                    <div style="margin-top: 60px">
+                                        <label style="display: block">Số lượng:</label>
+                                        <input id="quantity" type="number" min="1" value="1" max="5" />
+                                        <button type="button" onclick="AddToCarts(@Model.Id)" class="btn btn-fefault cart">
+                                            <i class="fa fa-shopping-cart"></i>
+                                            Thêm vào giỏ hàng
+                                        </button>
+                                    </div>
+                                </span>
+                                <p><b>Thương hiệu:&nbsp;</b><span>@Model.NameBrand</span></p>
+                                <p><b>Loại dây:&nbsp;</b><span>@Model.WatchesStrap</span></p>
+                                <p><b>Loại đồng hồ:&nbsp;</b><span>@Model.WatchesType</span></p>
+                                <p>
+                                    @Model.DescriptionProduct
+                                </p>
+                                <a href=""><img src="~/Content/img/product-details/share.png" class="share img-responsive" alt="" /></a>
+                            </div><!--/product-information-->
+                        </div>
+                    </div><!--/product-details-->
+
+                    <div class="category-tab shop-details-tab">
+                        <!--category-tab-->
+                        <div class="col-sm-12">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#details" data-toggle="tab">
+                                        Chi tiết sản phẩm
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#companyprofile" data-toggle="tab">
+                                        Thông tin thương hiệu
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#reviews" data-toggle="tab">
+                                        @if (ViewBag.Comments == null)
+                                        {
+                                            <span>Bình luận (0)</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Bình luận (@ViewBag.Comments.Count)</span>
+                                        }
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="details">
+                                <div class="col-sm-12 pl-5 pr-5">
+                                    <p>@Html.Raw(Model.DetailProduct)</p>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="companyprofile">
+                                <div class="col-sm-12 pl-5 pr-5">
+                                    <h4 class="ml-3">
+                                        @Html.Raw(Model.NameBrand)
+                                    </h4>
+                                    <b>@Model.DescriptionBrand</b>
+                                    <p>
+                                        @Html.Raw(Model.DescriptionBrand)
+                                    </p>
+                                    <p>
+                                        @Html.Raw(Model.DetailBrand)
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="reviews">
+                                <div class="col-sm-12">
+                                    @if (ViewBag.Comments != null)
+                                    {
+                                        foreach (var item in ViewBag.Comments)
+                                        {
+                                            <ul>
+                                                <li><a href="#"><i class="fa fa-user"></i>@item.UserComment.UserName</a></li>
+                                                <li><a href="#"><i class="fa fa-clock-o"></i>@item.Created_at_Format</a></li>
+                                            </ul>
+                                            <p>
+                                                @item.Detail
+                                            </p>
+                                        }
+                                    }
+
+                                    @if (ViewBag.NavUser != null)
+                                    {
+                                        <p><b>Bình luận</b></p>
+                                        <textarea id="txtComment" placeholder="Nội dung bình luận"></textarea>
+                                        <small style="display: block" id="errComment" class="text-danger"></small>
+                                        <small style="display: block" id="successComment" class="text-success"></small>
+                                        <button id="btnComment" class="btn btn-default pull-right">
+                                            Bình luận
+                                        </button>
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!--/category-tab-->
+
+                    <div class="recommended_items">
+                        <!--recommended_items-->
+                        <h2 class="title text-center">recommended items</h2>
+
+                        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/Content/img/home/recommend1.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/Content/img/home/recommend2.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/Content/img/home/recommend3.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/Content/img/home/recommend1.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/Content/img/home/recommend2.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="~/Content/img/home/recommend3.jpg" alt="" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div><!--/recommended_items-->
+
+                </div>
+            </div>
+        </div>
+    </section>
+    @Html.Hidden("productId", Model.Id)
+    @Html.Hidden("userId", ViewBag.NavUser == null ? String.Empty : (String)ViewBag.NavUser.Id.ToString())
+}
+
+@section AfterJs {
+    <script src="~/Scripts/fontend/product-detail.js"></script>
+}

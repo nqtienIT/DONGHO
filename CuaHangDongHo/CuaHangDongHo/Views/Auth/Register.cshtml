@@ -1,0 +1,117 @@
+﻿@model CuaHangDongHo.Models.User
+@using CuaHangDongHo.Defines
+@using CuaHangDongHo.Helpers
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="form">
+    <!--form-->
+    <div class="container">
+        <div class="row">
+
+
+            <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                <div class="signup-form">
+                    <!--sign up form-->
+                    <h2>Đăng ký tài khoản mới!</h2>
+                    @using (Html.BeginForm("Register", "Auth", FormMethod.Post))
+                    {
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new {placeholder = "Họ và tên..." } })
+                                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { placeholder = "Tên đăng nhập..." } })
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { placeholder = "Mật khẩu..." } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.PasswordAgain, htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                @Html.EditorFor(model => model.PasswordAgain, new { htmlAttributes = new { placeholder = "Nhập lại mật khẩu..." } })
+                                @Html.ValidationMessageFor(model => model.PasswordAgain, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                @foreach (Enums.GenderType gender in Enum.GetValues(typeof(Enums.GenderType)))
+                                {
+                                    @Html.RadioButtonFor(model => model.Gender, (int)gender, gender == Enums.GenderType.Male ? new { @checked = "checked" } : null)
+                                    @Html.Label(gender.GetEnumDisplayName(), new { @class = "ml-1 mr-5" })
+                                }
+
+                                @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { placeholder = "Nhập email..." } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(m => m.ProvinceId, Model.lstProvinces)
+                                        @Html.ValidationMessageFor(model => model.ProvinceId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(m => m.DistricstId, Model.lstDistricts)
+                                        @Html.ValidationMessageFor(model => model.DistricstId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-4">
+                                        @Html.DropDownListFor(m => m.CommuneId, Model.lstCommunes)
+                                        @Html.ValidationMessageFor(model => model.CommuneId, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        @Html.EditorFor(model => model.DetailAddress, new { htmlAttributes = new { placeholder = "Số nhà" } })
+                                        @Html.ValidationMessageFor(model => model.DetailAddress, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { placeholder = "Số điện thoại..." } })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-default"><i class="fas fa-plus-circle mr-3"></i>Đăng ký</button>
+                    }
+                </div><!--/sign up form-->
+                <div class="mt-4">
+                    <a href="@Url.Action("Login", "Auth")"><i>Bạn đã có tài khoản?</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

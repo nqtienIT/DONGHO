@@ -1,0 +1,78 @@
+﻿@model CuaHangDongHo.Models.VMOrderDetail
+@{
+    ViewBag.Title = "OrderDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="#">Trang chủ</a></li>
+                <li class="active">Giỏ hàng</li>
+            </ol>
+        </div>
+
+        <div class="table-responsive">
+            <h4>Đơn hàng: @Model.Created_at</h4>
+            <div>
+                <span>Họ tên người nhận: </span>
+                <span><b>@Model.FullName</b></span>
+            </div>
+            <div>
+                <span>Email: </span>
+                <span><b>@Model.Email</b></span>
+            </div>
+            <div>
+                <span>Số điện thoại: </span>
+                <span><b>@Model.Phone</b></span>
+            </div>
+            <div>
+                <span>Địa chỉ: </span>
+                <span><b>@Model.Address</b></span>
+            </div>
+            <div>
+                <span>Ngày xuất kho: </span>
+                <span><b>@Model.ExportDate</b></span>
+            </div>
+            <div>
+                <span>Trạng thái: </span>
+                <span><b>@Model.Status</b></span>
+            </div>
+            <div>
+                <span>Ghi chú: </span>
+                <span><b>@Model.Description</b></span>
+            </div>
+            <table id="cart_detail" class="table table-bordered tbl-cart">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Sản phẩm</td>
+                        <td>Giá</td>
+                        <td>Số lượng</td>
+                        <td>Tổng tiền</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ItemOrders)
+                    {
+                        <tr id="row_3">
+                            <td>
+                                <img src="@Url.Content("~/Content/img/products/" + item.Img)" width="110" height="110" alt="@item.ProductName" />
+                            </td>
+                            <td>@item.ProductName</td>
+                            <td>@item.PriceItem</td>
+                            <td>@item.Quantity</td>
+                            <td><b>@item.PriceAllItem</b></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" style="text-align: right"><b>Thành tiền</b></td>
+                        <td><b>@Model.TotalPrice</b></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+

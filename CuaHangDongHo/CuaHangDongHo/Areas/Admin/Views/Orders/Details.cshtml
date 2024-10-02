@@ -1,0 +1,86 @@
+﻿@model CuaHangDongHo.Models.VMOrderDetail
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Chi tiết Đơn hàng</h3>
+        <div class="mt-4">
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal">
+        <div class="card-body">
+            <h4>Đơn hàng: @Model.Created_at</h4>
+            <div>
+                <span>Họ tên người nhận: </span>
+                <span><b>@Model.FullName</b></span>
+            </div>
+            <div>
+                <span>Email: </span>
+                <span><b>@Model.Email</b></span>
+            </div>
+            <div>
+                <span>Số điện thoại: </span>
+                <span><b>@Model.Phone</b></span>
+            </div>
+            <div>
+                <span>Địa chỉ: </span>
+                <span><b>@Model.Address</b></span>
+            </div>
+            <div>
+                <span>Ngày xuất kho: </span>
+                <span><b>@Model.ExportDate</b></span>
+            </div>
+            <div>
+                <span>Trạng thái: </span>
+                <span><b>@Model.Status</b></span>
+            </div>
+            <div>
+                <span>Ghi chú: </span>
+                <span><b>@Model.Description</b></span>
+            </div>
+            <table id="cart_detail" class="table table-bordered tbl-cart">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Sản phẩm</td>
+                        <td>Giá</td>
+                        <td>Số lượng</td>
+                        <td>Tổng tiền</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ItemOrders)
+                    {
+                        <tr id="row_3">
+                            <td>
+                                <img src="@Url.Content("~/Content/img/products/" + item.Img)" width="110" height="110" alt="@item.ProductName" />
+                            </td>
+                            <td>@item.ProductName</td>
+                            <td>@item.PriceItem</td>
+                            <td>@item.Quantity</td>
+                            <td><b>@item.PriceAllItem</b></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" style="text-align: right"><b>Thành tiền</b></td>
+                        <td><b>@Model.TotalPrice</b></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <a href="@Url.Action("Index", "Orders", new { area = "Admin" })" class="btn btn-info">Quay lại</a>
+                <a href="@Url.Action("Edit", "Orders", new { area = "Admin", Id = Model.Id })" class="btn btn-success float-right">Sửa</a>
+            </div>
+            <!-- /.card-footer -->
+        </div>
+    </form>
+</div>
+

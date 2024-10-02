@@ -1,0 +1,108 @@
+﻿<div class="left-sidebar">
+    <h2>Thể loại</h2>
+
+    <div class="panel-group category-products" id="accordian">
+        <!--category-productsr-->
+        @{
+            if (ViewBag.Categories != null)
+            {
+                foreach (var cate in ViewBag.Categories)
+                {
+                    if (cate.ParentId == 0)
+                    {
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordian" href="@("#cate_" + cate.Id)" class="collapsed">
+                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                        @cate.Name
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="@("cate_" + cate.Id)" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach (var child in ViewBag.Categories)
+                                        {
+                                            if (child.ParentId == cate.Id)
+                                            {
+                                                <li>
+                                                    <a href="@Url.Action("Category", "Search", new { id = child.Id })">
+                                                        @child.Name
+                                                    </a>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            }
+        }
+    </div><!--/category-products-->
+
+    <div class="brands_products">
+        <!--brands_products-->
+        <h2>Thương hiệu</h2>
+        <div class="brands-name">
+            <ul class="nav nav-pills nav-stacked">
+                @if (ViewBag.Brands != null)
+                {
+                    foreach (var item in ViewBag.Brands)
+                    {
+                        <li><a href="@Url.Action("Brands", "Search", new { id = item.Id  })"> <span class="pull-right">(@item.ProductCount)</span>@item.Name</a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div><!--/brands_products-->
+
+    <div class="brands_products">
+        <h2>Loại dây</h2>
+        <div class="brands-name">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 1 })">Dây Silicone thường</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 2 })">Dây vải</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 3 })">Dây nhựa PU</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 4 })">Da thường</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 5 })">Da cá sấu</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 6 })">Dây dù</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 7 })">Dây kim loại</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 8 })">Thép không gỉ</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 9 })">Titanium</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 10 })">Dây cao su</a></li>
+                <li><a href="@Url.Action("WatchesStrap", "Search", new { id = 11 })">Khác</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="price-range">
+        <!--price-range-->
+        <h2>Price Range</h2>
+        <div class="well text-center">
+            <form method="get" action="/Search/PriceFilter">
+                <input type="text" id="sl2" class="span2" name="price_filter"
+                       value="100000,100000000"
+                       data-slider-min="100000"
+                       data-slider-max="100000000"
+                       data-slider-step="100000"
+                       data-slider-value="[100000,100000000]">
+                <br />
+                <b style="font-size: 13px" class="pull-left">100,000 VNĐ</b>
+                <b style="font-size: 13px" class="pull-right">100,000,000 VNĐ</b>
+                <button type="submit" id="btnPriceFilter" class="btn btn-default get"
+                        style="float: right; margin-top: 5px; font-size: 13px">
+                    Lọc giá
+                </button>
+            </form>
+        </div>
+    </div><!--/price-range-->
+
+    <div class="shipping text-center">
+        <!--shipping-->
+        <img src="~/Content/img/home/shipping.jpg" alt="" />
+    </div><!--/shipping-->
+
+</div>

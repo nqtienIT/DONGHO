@@ -1,0 +1,382 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="slider">
+    <!--slider-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="slider-carousel" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        @{
+                            int i = 0;
+                            foreach (var item in ViewBag.Sliders)
+                            {
+                                <li data-target="#slider-carousel" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                                i++;
+                            }
+                        }
+                    </ol>
+
+                    <div class="carousel-inner">
+                        @{
+                            int s = 0;
+                            foreach (var item in ViewBag.Sliders)
+                            {
+                                <div class="item @(s == 0 ? "active" : "")">
+                                    <div class="col-sm-6">
+                                        <h1><span>@item.ShortTitle</span></h1>
+                                        <h2>@item.LongTitle</h2>
+                                        <p>@item.Description </p>
+                                        <button type="button" class="btn btn-default get">Get it now</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <img src="@Url.Content("~/Content/img/sliders/" + item.Img)" class="girl img-responsive" alt="" style="height: 400px; width: auto;" />
+                                        <img src="@Url.Content("~/Content/img/sliders/" + item.SmallImg)" class="pricing" alt="" style="height: 150px; width: 150px" />
+                                    </div>
+                                </div>
+                                s++;
+                            }
+                        }
+                    </div>
+
+                    <a href="#slider-carousel" class="left control-carousel hidden-xs" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a href="#slider-carousel" class="right control-carousel hidden-xs" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section><!--/slider-->
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                @Html.Partial("~/Views/Shared/_LeftSidebarPartial.cshtml")
+            </div>
+
+            <div class="col-sm-9 padding-right">
+                <div class="features_items">
+                    <!--features_items-->
+                    <h2 class="title text-center">Sản phẩm mới</h2>
+
+                    @{
+                        if (ViewBag.NewProducts == null)
+                        {
+                            <div class="col-sm-4">
+                                Không có sản phẩm mới
+                            </div>
+                        }
+                        else
+                        {
+                            foreach (var item in ViewBag.NewProducts)
+                            {
+                                <div class="col-sm-4">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="@Url.Content("~/Content/img/products/" + item.Img)" alt="@item.Name" height="240" />
+                                                @{
+                                                    if (String.IsNullOrEmpty(item.PriceSaleVND))
+                                                    {
+                                                        <h2>@item.PriceVND</h2>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h2>@item.PriceSaleVND</h2>
+                                                    }
+                                                }
+                                                <p style="height: 40px">@item.Name</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                            </div>
+                                            <div class="product-overlay">
+                                                <div class="overlay-content">
+                                                    <a href="@Url.Action("Details", "Product", new { Id = item.Slug + "-p" + item.Id })">
+                                                        <p>@item.Description</p>
+                                                        @{
+                                                            if (String.IsNullOrEmpty(item.PriceSaleVND))
+                                                            {
+                                                                <h2>@item.PriceVND</h2>
+                                                            }
+                                                            else
+                                                            {
+                                                                <h2>@item.PriceSaleVND</h2>
+                                                                <h2 style="text-decoration: line-through; margin-top: -10px">@item.PriceVND</h2>
+                                                            }
+                                                        }
+                                                        <p style="height: 40px">@item.Name</p>
+                                                        <a href="javascript:void" onclick="AddToCart(@item.Id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                                    </a>
+                                                </div>
+                                                @if (item.PriceSale != null)
+                                                {
+                                                    <img src="~/Content/img/home/sale.png" class="sale" />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+
+
+
+                </div><!--features_items-->
+
+                <div class="category-tab">
+                    <!--category-tab-->
+                    <div class="col-sm-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tshirt" data-toggle="tab">Đồng hồ thường</a></li>
+                            <li><a href="#blazers" data-toggle="tab">Đồng hồ cơ</a></li>
+                            <li><a href="#sunglass" data-toggle="tab">Đồng hồ điện tử</a></li>
+                            <li><a href="#kids" data-toggle="tab">Đồng hồ thông minh</a></li>
+                            <li><a href="#poloshirt" data-toggle="tab">Phiên bản đặc biệt</a></li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade active in" id="tshirt">
+                            @foreach (var item in ViewBag.WatchesNormalProducts)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="@Url.Content("~/Content/img/products/" + item.Img)" alt="" />
+                                                @if (item.PriceSaleVND == null)
+                                                {
+                                                    <h2>@item.PriceVND</h2>
+                                                }
+                                                else
+                                                {
+                                                    <h2>@item.PriceSaleVND</h2>
+                                                }
+                                                <p>@item.Name</p>
+                                                <a href="javascript:void" onclick="AddToCart(@item.Id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-sm-12">
+                                <a href="@Url.Action("WatchesType", "Search", new { id = 1 })" style="float: right; margin-top: -20px; margin-bottom: 50px" class="btn btn-default get">Xem thêm</a>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="blazers">
+                            @foreach (var item in ViewBag.WatchesMechanicalProducts)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="@Url.Content("~/Content/img/products/" + item.Img)" alt="" />
+                                                @if (item.PriceSaleVND == null)
+                                                {
+                                                    <h2>@item.PriceVND</h2>
+                                                }
+                                                else
+                                                {
+                                                    <h2>@item.PriceSaleVND</h2>
+                                                }
+                                                <p>@item.Name</p>
+                                                <a href="javascript:void" onclick="AddToCart(@item.Id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-sm-12">
+                                <a href="@Url.Action("WatchesType", "Search", new { id = 2 })" style="float: right; margin-top: -20px; margin-bottom: 50px" class="btn btn-default get">Xem thêm</a>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="sunglass">
+                            @foreach (var item in ViewBag.WatchesElectronicProducts)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="@Url.Content("~/Content/img/products/" + item.Img)" alt="" />
+                                                @if (item.PriceSaleVND == null)
+                                                {
+                                                    <h2>@item.PriceVND</h2>
+                                                }
+                                                else
+                                                {
+                                                    <h2>@item.PriceSaleVND</h2>
+                                                }
+                                                <p>@item.Name</p>
+                                                <a href="javascript:void" onclick="AddToCart(@item.Id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-sm-12">
+                                <a href="@Url.Action("WatchesType", "Search", new { id = 3 })" style="float: right; margin-top: -20px; margin-bottom: 50px" class="btn btn-default get">Xem thêm</a>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="kids">
+                            @foreach (var item in ViewBag.WatchesSmartWatchProducts)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="@Url.Content("~/Content/img/products/" + item.Img)" alt="" />
+                                                @if (item.PriceSaleVND == null)
+                                                {
+                                                    <h2>@item.PriceVND</h2>
+                                                }
+                                                else
+                                                {
+                                                    <h2>@item.PriceSaleVND</h2>
+                                                }
+                                                <p>@item.Name</p>
+                                                <a href="javascript:void" onclick="AddToCart(@item.Id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-sm-12">
+                                <a href="@Url.Action("WatchesType", "Search", new { id = 4 })" style="float: right; margin-top: -20px; margin-bottom: 50px" class="btn btn-default get">Xem thêm</a>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="poloshirt">
+                            @foreach (var item in ViewBag.WatchesSpecialVersionProducts)
+                            {
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="@Url.Content("~/Content/img/products/" + item.Img)" alt="" />
+                                                @if (item.PriceSaleVND == null)
+                                                {
+                                                    <h2>@item.PriceVND</h2>
+                                                }
+                                                else
+                                                {
+                                                    <h2>@item.PriceSaleVND</h2>
+                                                }
+                                                <p>@item.Name</p>
+                                                <a href="javascript:void" onclick="AddToCart(@item.Id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="col-sm-12">
+                                <a href="@Url.Action("WatchesType", "Search", new { id = 5 })" style="float: right; margin-top: -20px; margin-bottom: 50px" class="btn btn-default get">Xem thêm</a>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--/category-tab-->
+
+                <div class="recommended_items">
+                    <!--recommended_items-->
+                    <h2 class="title text-center">Sản phẩm bán chạy</h2>
+
+                    <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="item active">
+                                @{
+                                    int a = 0;
+                                    foreach (var item in ViewBag.MostSoldProducts)
+                                    {
+                                        if (a == 3)
+                                        {
+                                            break;
+                                        }
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="~/Content/img/home/recommend1.jpg" alt="" />
+                                                        @if (item.PriceSaleVND == null)
+                                                        {
+                                                            <h2>@item.PriceVND</h2>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h2>@item.PriceSaleVND</h2>
+
+                                                        }
+                                                        <p style="height: 40px">@item.Name</p>
+                                                        <a href="javascript:void" onclick="AddToCart(@item.Id)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        a++;
+                                    }
+                                }
+
+                            </div>
+
+                            <div class="item">
+                                @{
+                                    int b = 0;
+                                    foreach (var item in ViewBag.MostSoldProducts)
+                                    {
+                                        b++;
+                                        if (b <= 3)
+                                        {
+                                            continue;
+                                        }
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="~/Content/img/home/recommend1.jpg" alt="" />
+                                                        <h2>$56</h2>
+                                                        <p style="height: 40px">Easy Polo Black Edition</p>
+                                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                        <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                        <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div><!--/recommended_items-->
+
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (ViewBag.OrderSuccess != null && ViewBag.OrderSuccess != "")
+{
+    <script>
+        alert('@ViewBag.OrderSuccess.ToString()')
+    </script>
+}

@@ -1,0 +1,154 @@
+﻿@model CuaHangDongHo.Models.VMCartItem
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.CartItems.Count() == 0)
+{
+    <section id="empty_cart" class="container">
+        <h3>Giỏ rỗng</h3>
+    </section>
+}
+else
+{
+    <section id="empty_cart" class="container" style="display: none">
+        <h3>Giỏ rỗng</h3>
+    </section>
+    <section id="cart_items">
+        <div class="container">
+            <div class="breadcrumbs">
+                <ol class="breadcrumb">
+                    <li><a href="#">Trang chủ</a></li>
+                    <li class="active">Giỏ hàng</li>
+                </ol>
+            </div>
+
+            <div class="table-responsive">
+                <table id="cart_detail" class="table table-bordered tbl-cart">
+                    <thead>
+                        <tr>
+                            <td class="hidden-xs" width="100px"></td>
+                            <td>Sản phẩm</td>
+                            <td>Giá sản phẩm</td>
+                            <td class="td-qty" style="width: 130px">Số lượng</td>
+                            <td>Tổng giá sản phẩm</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartItems)
+                        {
+                            <tr id="@("row_" + item.ProductId)">
+                                <td class="hidden-xs">
+                                    <a href="#">
+                                        <img src="@Url.Content("~/Content/img/products/" + item.Img)"
+                                             alt="@item.ProductName" title="@item.ProductName" width="110" height="110">
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Details", "Product", new { id = item.ProductId })">
+                                        @item.ProductName
+                                    </a>
+                                </td>
+                                <td class="price-item" id="@("price_" + item.ProductId)">@item.PriceItem</td>
+                                <td>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn">
+                                            <button onclick="SubQuantity(@item.ProductId)" class="btn btn-default bootstrap-touchspin-down" type="button">-</button>
+                                        </span>
+                                        <span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+                                        <input onchange="UpdateQuantity(@item.ProductId)" type="text" name="" min="1" id="@("quantity_" + item.ProductId)" value="@item.Quantity" class="input-qty form-control text-center" style="display: block;">
+                                        <span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span>
+                                        <span class="input-group-btn">
+                                            <button onclick="AddQuantity(@item.ProductId)" class="btn btn-default bootstrap-touchspin-up" type="button">+</button>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td id="@("total_price_" + item.ProductId)" class="price">@item.PriceAllItem</td>
+                                <td class="text-center">
+                                    <a href="javascript:void" onclick="DeleteProduct(@item.ProductId)" class="remove_cart" rel="2">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td colspan="4" align="right">Tổng giá đơn hàng</td>
+                            <td class="total" colspan="2">
+                                <b id="total_money">@Model.TotalPrice</b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="do_action">
+        <div class="container">
+            <div class="heading">
+                <h3>Đặt hàng</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="chose_area">
+                        @if (!String.IsNullOrEmpty(ViewBag.ErrMsg))
+                        {
+                            <h5 class="text-danger">@ViewBag.ErrMsg</h5>
+                        }
+                        <form action="@Url.Action("Checkout", "Cart")" method="post">
+                            <ul class="user_info">
+                                <li class="single_field zip-field">
+                                    <label>Họ và tên:</label>
+                                    @Html.EditorFor(m => m.UserInfo.Name)
+                                </li>
+                                <li class="single_field zip-field">
+                                    <label>Số điện thoại:</label>
+                                    @Html.EditorFor(m => m.UserInfo.Phone)
+                                </li>
+                                <li class="single_field zip-field">
+                                    <label>Email:</label>
+                                    @Html.EditorFor(m => m.UserInfo.Email)
+                                </li>
+                                <li class="single_field zip-field mt-5">
+                                    <label>Tỉnh/Thành phố:</label>
+                                    @Html.DropDownListFor(m => m.UserInfo.ProvinceId, Model.UserInfo.lstProvinces, new { id = "ProvinceId"  })
+                                </li>
+                                <li class="single_field zip-field mt-5">
+                                    <label>Quận/Huyện:</label>
+                                    @Html.DropDownListFor(m => m.UserInfo.DistricstId, Model.UserInfo.lstDistricts, new { id = "DistricstId" })
+                                </li>
+                                <li class="single_field zip-field mt-5">
+                                    <label>Xã/Phường:</label>
+                                    @Html.DropDownListFor(m => m.UserInfo.CommuneId, Model.UserInfo.lstCommunes, new { id = "CommuneId" })
+                                </li>
+                                <li class="single_field zip-field mt-5">
+                                    <label>Số nhàs:</label>
+                                    @Html.TextAreaFor(m => m.UserInfo.DetailAddress, new { id = "DetailAddress" })
+                                </li>
+                                <li class="single_field zip-field mt-5">
+                                    <label>Ghi chú:</label>
+                                    @Html.TextAreaFor(m => m.Description)
+                                </li>
+                            </ul>
+                            <button class="btn btn-default update" type="submit">Đặt hàng</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+@section AfterCss {
+    <style>
+        .table tbody tr td {
+            vertical-align: inherit;
+        }
+    </style>
+}
+
+@section AfterJs {
+    <script src="~/Scripts/fontend/cart-deails.js"></script>
+}

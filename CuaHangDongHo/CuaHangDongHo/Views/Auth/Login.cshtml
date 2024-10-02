@@ -1,0 +1,60 @@
+﻿@model CuaHangDongHo.Models.User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="form">
+    <!--form-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-offset-4 col-sm-4 col-sm-offset-4">
+                <div class="login-form">
+                    <!--login form-->
+                    <h2>Đăng nhập tài khoản</h2>
+                    @if (!String.IsNullOrEmpty(ViewBag.ErrMsg))
+                    {
+                        <div class="text-danger mb-2">
+                            @ViewBag.ErrMsg
+                        </div>
+                    }
+
+                    @if (!String.IsNullOrEmpty(ViewBag.SuccessMsg))
+                    {
+                        <div class="text-success mb-2">
+                            @ViewBag.SuccessMsg
+                        </div>
+                    }
+
+                    @using (Html.BeginForm("Login", "Auth", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { placeholder = "Username" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { placeholder = "Password", @type = "password" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger", style = "display: block" })
+
+                        <span>
+                            @Html.EditorFor(model => model.SaveLogin, new { htmlAttributes = new { @call = "checkbox" } })
+                            Lưu đăng nhập
+                        </span>
+                        <button type="submit" class="btn btn-default">Login</button>
+                        <a href="@Url.Action("LoginFb", "Auth")">
+                            <button type="button" class="btn btn-default">Login Facebook</button>
+                        </a>
+                        <a href="@Url.Action("LoginZalo", "Auth")">
+                            <button type="button" class="btn btn-default">Login Zalo</button>
+                        </a>
+                    }
+                </div><!--/login form-->
+                <div class="mt-4">
+                    <a href="@Url.Action("Register", "Auth")"><i>Bạn chưa có tài khoản?</i></a>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+

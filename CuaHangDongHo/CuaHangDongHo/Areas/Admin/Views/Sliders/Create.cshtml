@@ -1,0 +1,87 @@
+﻿@model CuaHangDongHo.Models.Slider
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Thêm mới Slider</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    @using (Html.BeginForm("Create", "Sliders", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card-body">
+            <div class="form-group row">
+                @Html.LabelFor(model => model.ShortTitle, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.ShortTitle, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên Sản Phẩm..." } })
+                    @Html.ValidationMessageFor(model => model.ShortTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.LongTitle, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.LongTitle, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LongTitle, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.Img, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-6 custom-file">
+                            @Html.EditorFor(model => model.Img, new { htmlAttributes = new { @class = "custom-file-input", type = "file" } })
+                            @Html.LabelFor(model => model.Img, htmlAttributes: new { @class = "custom-file-label" })
+                            @Html.ValidationMessageFor(model => model.Img, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-sm-6">
+                            <img id="previewImg" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.LabelFor(model => model.SmallImg, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                <div class="col-sm-10">
+                    <div class="row">
+                        <div class="col-sm-6 custom-file">
+                            @Html.EditorFor(model => model.SmallImg, new { htmlAttributes = new { @class = "custom-file-input", type = "file" } })
+                            @Html.LabelFor(model => model.SmallImg, htmlAttributes: new { @class = "custom-file-label" })
+                            @Html.ValidationMessageFor(model => model.SmallImg, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="col-sm-6">
+                            <img id="previewImg" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="submit" class="btn btn-info">Sign in</button>
+            <button type="submit" class="btn btn-success float-right">Thêm mới</button>
+        </div>
+        <!-- /.card-footer -->
+    }
+</div>

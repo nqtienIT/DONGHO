@@ -1,0 +1,64 @@
+﻿@model CuaHangDongHo.Models.Category
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card card-info">
+        <div class="card-header">
+            <h3 class="card-title">Thêm mới người dùng</h3>
+            <div class="mt-4">
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form class="form-horizontal">
+            <div class="card-body">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên sản phẩm..." } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Slug, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Slug, new { htmlAttributes = new { @class = "form-control", placeholder = "Slug...", @readonly = true } })
+                        @Html.ValidationMessageFor(model => model.Slug, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ParentId, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @*@Html.DropDownList("ParentId", (List<SelectListItem>)@ViewBag.lstCateParent, new { @class = "form-control" })*@
+                        @Html.DropDownListFor(m => m.ParentId, Model.lstParentItem, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-info">Sign in</button>
+                    <button type="submit" class="btn btn-success float-right" id="btnSave">Thêm mới</button>
+                </div>
+                <!-- /.card-footer -->
+            </div>
+        </form>
+    </div>
+
+}
+
+@section AfterJs {
+    <script src="~/Scripts/admin/categories-js.js"></script>
+}

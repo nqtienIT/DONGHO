@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>@ViewBag.Title</title>
+
+    <!-- Font Awesome Icons -->
+    <link href="~/Content/css/fontawesome/css/all.min.css" rel="stylesheet" />
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link href="~/Content/css/adminlte/adminlte.min.css" rel="stylesheet" />
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    @*<link href="~/Content/css/bootstrap/bootstrap-3.4.1.min.css" rel="stylesheet" />*@
+
+    <link href="~/Content/css/datatables/datatables.min.css" rel="stylesheet" />
+    <link href="~/Content/css/adminlte/main.css" rel="stylesheet" />
+    @RenderSection("BeforeCss", required: false)
+    @RenderSection("BeforeJs", required: false)
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        @Html.Partial("_NavBarPartial")
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        @Html.Partial("_MenuPartial")
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            @Html.Partial("_ContentHeaderPartial")
+            <!-- /.content-header -->
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid">
+
+                    @RenderBody()
+
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Main Footer -->
+        @Html.Partial("_FooterPartial")
+    </div>
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/Scripts/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="~/Scripts/adminlte/adminlte.js"></script>
+
+    <!-- OPTIONAL SCRIPTS -->
+    <script src="~/Scripts/adminlte/demo.js"></script>
+    <script src="~/Scripts/adminlte/dashboard3.js"></script>
+
+    <script src="~/Scripts/datatables/datatables.min.js"></script>
+
+    <script src="~/Scripts/admin/site-js.js"></script>
+    @RenderSection("AfterCss", required: false)
+    @RenderSection("AfterJs", required: false)
+
+</body>
+</html>

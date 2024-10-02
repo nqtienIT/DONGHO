@@ -1,0 +1,77 @@
+﻿@model IEnumerable<CuaHangDongHo.Models.Order>
+@using CuaHangDongHo.Helpers
+@{
+    ViewBag.Title = "Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+                <li><a href="#">Trang chủ</a></li>
+                <li class="active">Giỏ hàng</li>
+            </ol>
+        </div>
+
+        <div class="table-responsive">
+            @foreach (var item in Model)
+            {
+                <h4>Đơn hàng</h4>
+                <table id="cart_detail" class="table table-bordered tbl-cart">
+                    <thead>
+                        <tr>
+                            <td>Ngày tạo</td>
+                            <td>Số lượng</td>
+                            <td>Tổng tiền</td>
+                            <td>Tình trạng đơn hàng</td>
+                            <td>Chi tiết</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="row_3">
+                            <td>
+                                @item.Created_at
+                            </td>
+                            <td>@item.Quantity</td>
+                            <td>@item.TotalPrice</td>
+                            <td id="@("divStatus_" + item.Id)" style="max-width: 160px">
+                                @{
+                                    if (item.Status == CuaHangDongHo.Defines.Enums.OrderStatus.Pending)
+                                    {
+                                        <select onchange="ChangeStatus(this, @item.Id)">
+                                            <option value="@((int)CuaHangDongHo.Defines.Enums.OrderStatus.Pending)">
+                                                @CuaHangDongHo.Defines.Enums.OrderStatus.Pending.GetEnumDisplayName()
+                                            </option>
+                                            <option value="@((int)CuaHangDongHo.Defines.Enums.OrderStatus.Cancel)">
+                                                @CuaHangDongHo.Defines.Enums.OrderStatus.Cancel.GetEnumDisplayName()
+                                            </option>
+                                        </select>
+                                        <div id="@("cancel_order_" + item.Id)" style="display: none">
+                                            <textarea id="@("description_" + item.Id)" placeholder="Ghi chú" class="mt-1"></textarea>
+                                            <small id="@("invalid_text_" + item.Id)" class="text-danger"></small>
+                                            <button onclick="CancelOrder(@item.Id)" class="mt-1" style="float: right">Hủy đơn hàng</button>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        @item.StatusOrder
+                                    }
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a href="@Url.Action("OrderDetail", "Cart", new { id = item.Id })">
+                                    <i class="fa fa-times">Chi tiết</i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</section>
+
+@section AfterJs {
+    <script src="~/Scripts/fontend/cart-order.js"></script>
+}

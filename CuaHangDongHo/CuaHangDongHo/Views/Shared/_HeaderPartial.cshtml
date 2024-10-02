@@ -1,0 +1,114 @@
+﻿<!--header-->
+<div class="header-middle">
+    <!--header-middle-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="logo pull-left">
+                    <a href="@Url.Action("Index", "Home")"><img src="~/Content/img/home/logo.png" alt="" /></a>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="shop-menu pull-right">
+                    <ul class="nav navbar-nav">
+                        @*<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
+                            <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li>
+                            <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>*@
+                        <li>
+                            <a title="Giỏ hàng" href="@Url.Action("Details", "Cart")">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span class="badge" id="lblCartCount">@ViewBag.NavNumProduct</span>
+                            </a>
+                        </li>
+                        @{
+                            if (ViewBag.NavUser == null)
+                            {
+                                <li>
+                                    <a title="Đăng nhập" href="@Url.Action("Login", "Auth")">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a title="Đơn hàng của tôi" href="@Url.Action("Orders", "Cart")">
+                                        <i class="fas fa-clipboard-list"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="@ViewBag.NavUser.FullName">
+                                        <i class="fa fa-user"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a title="Đăng Xuất" href="@Url.Action("Logout", "Auth")">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/header-middle-->
+
+<div class="header-bottom">
+    <!--header-bottom-->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="mainmenu pull-left">
+                    <ul class="nav navbar-nav collapse navbar-collapse">
+                        <li>
+                            @Html.ActionLink("Trang chủ", "Index", "Home", null, new { @class = "active" })
+                        </li>
+                        @*<li class="dropdown">
+                                <a href="#">Shop<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="shop.html">Products</a></li>
+                                    <li><a href="product-details.html">Product Details</a></li>
+                                    <li><a href="checkout.html">Checkout</a></li>
+                                    <li><a href="cart.html">Cart</a></li>
+                                    <li><a href="login.html">Login</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#">Blog<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    <li><a href="blog.html">Blog List</a></li>
+                                    <li><a href="blog-single.html">Blog Single</a></li>
+                                </ul>
+                            </li>*@
+                        <li><a href="@Url.Action("All", "Search")">Shop</a></li>
+                        <li><a href="@Url.Action("Index", "Contact")">Liên hệ</a></li>
+                        <li>
+                            <a href="@Url.Action("Index", "Home", new { Area = "Admin" })">Admin</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index", "Post")">Bài viết</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="search_box pull-right">
+                    <form action="@Url.Action("Index", "Search")" method="get">
+                        <input type="text" placeholder="Tìm kiếm" name="q" />
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/header-bottom-->

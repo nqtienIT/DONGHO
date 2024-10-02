@@ -1,0 +1,48 @@
+﻿@model IEnumerable<CuaHangDongHo.Models.Post>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                @Html.Partial("~/Views/Shared/_LeftSidebarPartial.cshtml")
+            </div>
+
+            <div class="col-sm-9">
+                <div class="blog-post-area">
+                    <h2 class="title text-center">Bài viết mới nhất</h2>
+                    @foreach (var item in Model)
+                    {
+                        <div class="single-blog-post">
+                            <h3>@item.Title</h3>
+                            <div class="post-meta">
+                                <ul>
+                                    <li><i class="fa fa-user"></i> @item.Created_by</li>
+                                    <li><i class="fa fa-calendar"></i> @item.Created_at</li>
+                                </ul>
+                            </div>
+                            <a href="@Url.Action("Detail", "Post", new { id = item.Id })">
+                                <img style="width: 845px; max-height: 300px" src="@Url.Content("~/Content/img/posts/" + item.Img)" alt="@item.Title" />
+                            </a>
+                            <p>@item.ShortDetail</p>
+                            <a style="float: right" class="btn btn-primary" href="@Url.Action("Detail", "Post", new { id = item.Id })">Đọc tiếp...</a>
+                        </div>
+                    }
+
+                    @*<div class="pagination-area">
+                        <ul class="pagination">
+                            <li><a href="" class="active">1</a></li>
+                            <li><a href="">2</a></li>
+                            <li><a href="">3</a></li>
+                            <li><a href=""><i class="fa fa-angle-double-right"></i></a></li>
+                        </ul>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

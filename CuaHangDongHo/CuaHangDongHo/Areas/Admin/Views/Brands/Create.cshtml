@@ -1,0 +1,82 @@
+﻿@model CuaHangDongHo.Models.Brand
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("Create", "Brands", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card card-info">
+        <div class="card-header">
+            <h3 class="card-title">Thêm mới Nhãn hiệu</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form class="form-horizontal">
+            <div class="card-body">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên thương hiệu..." } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Img, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Img, new { htmlAttributes = new { placeholder = "Slug...", type = "file" } })
+                        @Html.ValidationMessageFor(model => model.Img, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", placeholder = "Ghi chú" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        <textarea id="Detail" class="detail_summernote" placeholder="Place some text here"
+                                  name="Detail"
+                                  style="display: none"></textarea>
+                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-info">Sign in</button>
+                    <button type="submit" class="btn btn-success float-right" id="btnSave">Thêm mới</button>
+                </div>
+                <!-- /.card-footer -->
+            </div>
+        </form>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section BeforeCss {
+    <link href="~/Content/css/summernote/summernote-bs4.css" rel="stylesheet" />
+}
+
+@section AfterJs {
+    <script src="~/Scripts/summernote/summernote-bs4.min.js"></script>
+    <script src="~/Scripts/summernote/lang/summernote-vi-VN.min.js"></script>
+    <script>
+        // Summernote
+        $('.detail_summernote').summernote({
+            lang: 'vi-VN'
+        })
+    </script>
+}

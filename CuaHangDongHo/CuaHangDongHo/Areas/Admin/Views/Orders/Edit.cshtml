@@ -1,0 +1,188 @@
+﻿@model CuaHangDongHo.Models.VMOrderDetail
+@using CuaHangDongHo.Defines;
+@using CuaHangDongHo.Helpers;
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Cập nhật Đơn hàng</h3>
+        <div class="mt-4">
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <h5 class="text-danger">@ViewBag.Err</h5>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal" method="post" action="@Url.Action("Edit", "Orders")">
+        <div class="card-body">
+            <h4>Đơn hàng: @Model.Created_at</h4>
+            <div>
+                <span>Họ tên người nhận: </span>
+                <span><b>@Model.FullName</b></span>
+            </div>
+            <div>
+                <span>Email: </span>
+                <span><b>@Model.Email</b></span>
+            </div>
+            <div>
+                <span>Số điện thoại: </span>
+                <span><b>@Model.Phone</b></span>
+            </div>
+            <div>
+                <span>Địa chỉ: </span>
+                <span><b>@Model.Address</b></span>
+            </div>
+            <div>
+                <span>Ngày xuất kho: </span>
+                <span><b>@Model.ExportDate</b></span>
+            </div>
+            <div>
+                <span>Trạng thái: </span>
+                <span><b>@Model.Status</b></span>
+            </div>
+            <div>
+                <span>Ghi chú: </span>
+                <span><b>@Model.Description</b></span>
+            </div>
+            <table id="cart_detail" class="table table-bordered tbl-cart">
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Sản phẩm</td>
+                        <td>Giá</td>
+                        <td>Số lượng</td>
+                        <td>Tổng tiền</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ItemOrders)
+                    {
+                        <tr id="row_3">
+                            <td>
+                                <img src="@Url.Content("~/Content/img/products/" + item.Img)" width="110" height="110" alt="@item.ProductName" />
+                            </td>
+                            <td>@item.ProductName</td>
+                            <td>@item.PriceItem</td>
+                            <td>@item.Quantity</td>
+                            <td><b>@item.PriceAllItem</b></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="4" style="text-align: right"><b>Thành tiền</b></td>
+                        <td><b>@Model.TotalPrice</b></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row my-5">
+                <div class="col-auto">
+                    Trạng thái:
+                </div>
+                <div class="col-2">
+                    @{
+                        #region DropDown
+                        List<SelectListItem> lstItem = new List<SelectListItem>();
+
+                        // dang cho duyet don hang => dc quyen huy don hang
+                        if (Model.Status == Enums.OrderStatus.Pending.GetEnumDisplayName())
+                        {
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Preparing.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Preparing).ToString(),
+                            });
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Delivering.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Delivering).ToString(),
+                            });
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Finished.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Finished).ToString(),
+                            });
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Cancel.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Cancel).ToString(),
+                            });
+                        }
+                        //dang xu ly don hang => dc quyen huy don hang
+                        else if (Model.Status == Enums.OrderStatus.Preparing.GetEnumDisplayName())
+                        {
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Delivering.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Delivering).ToString(),
+                            });
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Finished.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Finished).ToString(),
+                            });
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Cancel.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Cancel).ToString(),
+                            });
+                        }
+                        // dang giao hang => ko dc huy don hang
+                        else if (Model.Status == Enums.OrderStatus.Delivering.GetEnumDisplayName())
+                        {
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Finished.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Finished).ToString(),
+                            });
+                        }
+                        // giao hang hoan tat
+                        else if (Model.Status == Enums.OrderStatus.Finished.GetEnumDisplayName())
+                        {
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Finished.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Finished).ToString(),
+                            });
+                        }
+                        // giao hang hoan tat
+                        else if (Model.Status == Enums.OrderStatus.Cancel.GetEnumDisplayName())
+                        {
+                            lstItem.Add(new SelectListItem
+                            {
+                                Text = Enums.OrderStatus.Cancel.GetEnumDisplayName(),
+                                Value = ((int)Enums.OrderStatus.Cancel).ToString(),
+                            });
+                        }
+                        #endregion
+                        var selectList = new SelectList(lstItem, "Value", "Text");
+                    }
+                    @Html.DropDownList("status", selectList, new { @class = "form-control" })
+                </div>
+                <div class="col-auto">
+                    Ghi chú:
+                </div>
+                <div class="col-7">
+                    <input type="text" name="description" class="form-control" />
+                </div>
+                <input type="hidden" name="id" value="@Model.Id" />
+            </div>
+
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <a href="@Url.Action("Index", "Orders", new { area = "Admin" })" class="btn btn-info">Quay lại</a>
+                @if (Model.Status == Enums.OrderStatus.Finished.ToString() || Model.Status == Enums.OrderStatus.Cancel.ToString())
+                {
+                    <button type="button" class="btn btn-success float-right" disabled>Cập nhật</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-success float-right">Cập nhật</button>
+                }
+            </div>
+        </div>
+        <!-- /.card-footer -->
+    </form>
+</div>
+

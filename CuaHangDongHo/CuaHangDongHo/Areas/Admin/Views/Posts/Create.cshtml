@@ -1,0 +1,97 @@
+﻿@model CuaHangDongHo.Models.Post
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@using (Html.BeginForm("Create", "Posts", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="card card-info">
+        <div class="card-header">
+            <h3 class="card-title">Thêm mới bài viết</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form class="form-horizontal">
+            <div class="card-body">
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", placeholder = "Tên Sản Phẩm..." } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Slug, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => model.Slug, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                        @Html.ValidationMessageFor(model => model.Slug, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Img, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-6 custom-file">
+                                @Html.EditorFor(model => model.Img, new { htmlAttributes = new { @class = "custom-file-input", type = "file" } })
+                                @Html.LabelFor(model => model.Img, htmlAttributes: new { @class = "custom-file-label" })
+                                @Html.ValidationMessageFor(model => model.Img, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-sm-6">
+                                <img id="previewImg" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.ShortDetail, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(model => model.ShortDetail, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "col-sm-2 col-form-label" })
+                    <div class="col-sm-10">
+                        @*@Html.EditorFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control" } })*@
+
+                        <textarea id="Detail" class="detail_summernote" placeholder="Place some text here"
+                                  name="Detail"
+                                  style="display: none"></textarea>
+
+                        @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
+                    </div>
+                </div>               
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="submit" class="btn btn-info">Sign in</button>
+                <button type="submit" class="btn btn-success float-right">Thêm mới</button>
+            </div>
+            <!-- /.card-footer -->
+        </form>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section BeforeCss {
+    <link href="~/Content/css/summernote/summernote-bs4.css" rel="stylesheet" />
+}
+
+@section AfterJs {
+    <script src="~/Scripts/summernote/summernote-bs4.min.js"></script>
+    <script src="~/Scripts/admin/posts-js.js"></script>
+}
